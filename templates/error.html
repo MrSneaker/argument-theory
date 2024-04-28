@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Datastore and Firebase Auth Example</title>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <!-- Include Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f0f0f0;
+      /* Warm grey tone */
+      text-align: center;
+      /* Center align text */
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="p-5">
+    <img
+      src="https://www.horizont.net/news/media/25/Otto-Hide-tthe-Pain-Harold-246655.jpeg">
+  </div>
+
+  <div>
+    <div class="col">
+        <h1>Error</h1>
+        <p>{{ error_message }}</p>
+    </div>
+  </div>
+
+  <!-- Include Bootstrap JS and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

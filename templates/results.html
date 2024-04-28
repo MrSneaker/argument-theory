@@ -1,0 +1,202 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Datastore and Firebase Auth Example</title>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <!-- Include Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f0f0f0;
+      /* Warm grey tone */
+      text-align: center;
+      /* Center align text */
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1 class="p-3">Argumentation Theory Cloud Platform</h1>
+
+  <div class="p-5">
+    <img
+      width="300px" src="https://images.ladbible.com/resize?type=webp&quality=70&width=1920&fit=contain&gravity=auto&url=https://s3-images.ladbible.com/s3/content/bd9f19995fe03288211239f5ac6e093f.png">
+  </div>
+
+  <h5>Rules + Contrapositions:</h5>
+  
+  <div class="p-4">
+    {% for rule in ruleset %}
+      <div>{{ rule }}</div>
+    {% endfor %}
+  </div>
+  
+  
+  <div class="card">
+    <div class="card-header" id="argumentsHeading">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#argumentsCollapse"
+          aria-expanded="true" aria-controls="argumentsCollapse">
+          <h2>Resulting Arguments ({{ arguments|length }})</h2>
+
+        </button>
+      </h2>
+    </div>
+
+    <div id="argumentsCollapse" class="collapse" aria-labelledby="argumentsHeading">
+      <div class="card-body">
+        <table class="mx-auto" style="min-width:800px">
+            {% for i in range(0, arguments|length, 4) %}
+            <tr class="column mx-2">
+              {% for j in range(i, i+4) %}
+              {% if j < arguments|length %} <td>{{ arguments[j] }}</td>
+                {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" id="rebutsHeading">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#rebutsCollapse"
+          aria-expanded="true" aria-controls="rebutsCollapse">
+          <h2>Rebuts ({{ rebuts|length }})</h2>
+        </button>
+      </h2>
+    </div>
+
+    <div id="rebutsCollapse" class="collapse" aria-labelledby="rebutsHeading">
+      <div class="card-body">
+        <table class="mx-auto" style="min-width:800px">
+          {% for line in rebuts %}
+              <tr>
+              {% for cell in line.split('|') %}
+                  <td>{{ cell }}</td>
+              {% endfor %}
+              </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" id="undercutsHeading">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#undercutsCollapse"
+          aria-expanded="true" aria-controls="undercutsCollapse">
+          <h2>Undercuts ({{ undercuts|length }})</h2>
+        </button>
+      </h2>
+    </div>
+
+    <div id="undercutsCollapse" class="collapse" aria-labelledby="undercutsHeading">
+      <div class="card-body">
+        <table class="mx-auto" style="min-width:800px">
+          {% for line in undercuts %}
+              <tr>
+              {% for cell in line.split('|') %}
+                  <td>{{ cell }}</td>
+              {% endfor %}
+              </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" id="defeatsHeading">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#defeatsCollapse"
+          aria-expanded="true" aria-controls="defeatsCollapse">
+          <h2>Successfull Defeats ({{ defeats|length }})</h2>
+        </button>
+      </h2>
+    </div>
+
+    <div id="defeatsCollapse" class="collapse" aria-labelledby="defeatsHeading">
+      <div class="card-body">
+        <img src="{{ plot_url }}" alt="Histogram of Defeat In-Degrees" style="width:auto; height:auto;">
+        <table class="mx-auto" style="min-width:800px">
+          {% for line in defeats %}
+              <tr>
+              {% for cell in line.split('|') %}
+                  <td>{{ cell }}</td>
+              {% endfor %}
+              </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" id="filteredAttHeading">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#filteredAttCollapse"
+          aria-expanded="true" aria-controls="filteredAttCollapse">
+          <h2>Filtered Attacks ({{ filteredAtt|length }})</h2>
+        </button>
+      </h2>
+    </div>
+
+    <div id="filteredAttCollapse" class="collapse" aria-labelledby="filteredAttHeading">
+      <div class="card-body">
+        <table class="mx-auto" style="min-width:800px">
+          {% for line in filteredAtt %}
+              <tr>
+              {% for cell in line.split('|') %}
+                  <td>{{ cell }}</td>
+              {% endfor %}
+              </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" id="burdenRankHeading">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#burdenRankCollapse"
+          aria-expanded="true" aria-controls="burdenRankCollapse">
+          <h2>Burden Rank ({{ burdenRank|length }})</h2>
+        </button>
+      </h2>
+    </div>
+
+    <div id="burdenRankCollapse" class="collapse" aria-labelledby="burdenRankHeading">
+      <div class="card-body">
+        <table class="mx-auto" style="min-width:800px">
+          {% for line in burdenRank %}
+              <tr>
+              {% for cell in line.split('|') %}
+                  <td>{{ cell }}</td>
+              {% endfor %}
+              </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <footer>
+    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&themeRefresh=1">Contact</a>
+  </footer>
+
+  <!-- Include Bootstrap JS and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

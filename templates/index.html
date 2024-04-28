@@ -1,0 +1,132 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <title>Datastore and Firebase Auth Example</title>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Adding Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f0f0f0;
+            /* Warm grey tone */
+            text-align: center;
+            /* Center align text */
+        }
+
+        .container {
+            margin-top: 50px;
+            /* Add margin at the top for better spacing */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        
+        <h2 class="mb-5">
+            Argumentation Online Plattform
+        </h2>	
+    
+        
+        <div class="form-group">
+            <form action="/read_rules" method="post">
+                <div class="row">
+                    <div class="col">
+                        <h4>1. Set Rules</h4>
+                        <div class="p-3">
+                            Add rules here or use the default ruleset. Rules should be formatted as follows:
+                            [{ruleName}] {premises}{-> or =>}{conclusion} {ruleWeight}
+                        </div>
+                            <textarea class="form-control" name="rules" id="rulesTextarea" rows="13" spellcheck="false">
+[r1] ->a
+[r2] d,b->c
+[r3] !c->d
+[r10] !c,b->!d
+[r11] !c,d->!b
+[r12] !d->c
+[r4] a=>!d 0
+[r5] =>b 1
+[r6] =>!c 1
+[r7] =>d 0
+[r8] c=>e 0
+[r9] !c=>!r4 0</textarea>
+                    </div>
+                    <div class="col">
+                        <h4>2. Set Preferences</h4>
+                        <div class="p-3">
+                            Add preferences for defeasible rules here or use the default preferences. Preferences should be listed in descending order of importance, separated by commas.
+                        </div>
+                        <textarea class="form-control" name="preferences" id="preferencesTextarea" rows="10" spellcheck="false">
+r3, r4, r5
+r6
+r7
+r8</textarea>
+                        <div class="form-check m-3">
+                            <input class="form-check-input" type="checkbox" checked name="ruleWeightsCheck" id="ruleWeightsCheck">
+                            <label class="form-check-label" for="ruleWeightsCheck">
+                              Use rule weights for preferences
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Checkboxes to choose between the election Principles "democratic" and "elitist"-->
+
+                <h5 class="mt-5 mb-3">
+                    3. Choose an election principle
+                </h5>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="electionPrinciple" id="democraticRadio"
+                        value="democratic">
+                    <label class="form-check-label" for="democraticRadio">
+                        Election Principle "Democratic"
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="electionPrinciple" id="elitistRadio"
+                        value="elitist" checked>
+                    <label class="form-check-label" style="width:218px" for="elitistRadio">
+                        Election Principle "Elitist"
+                    </label>
+                </div>
+
+                <h5 class="mt-5 mb-3">
+                    4. Choose a lifting/link principle
+                </h5>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="linkPrinciple" id="lastlinkRadio"
+                        value="lastlink">
+                    <label class="form-check-label" for="lastlinkRadio">
+                        Link Principle "Last Link"
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="linkPrinciple" id="weakestRadio" value="weakest"
+                        checked>
+                    <label class="form-check-label" for="weakestRadio">
+                        Link Principle "Weakest"
+                    </label>
+                </div>
+
+                <input class="btn btn-primary mt-5" type="submit" value="Process Ruleset">
+            </form>
+
+
+        </div>
+
+        <!-- Adding Bootstrap JS and jQuery -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
