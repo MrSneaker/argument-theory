@@ -160,20 +160,6 @@ class Undercut:
         return hash((self.attacker, self.defendant))
 
 
-# def generateUndercutAttacks(args):
-#     # generate all pairs of arguments
-#
-#     pairs, attacks = [(x, y) for x in args for y in args], []
-#
-#     for a1, a2 in pairs:
-#         for a2_subarg in a2.getSubArguments():
-#             if a1.toprule.conclusion.hasConflictWith(a2_subarg.toprule.conclusion) and a1.toprule.isDefeasible:
-#                 attacks.append([str(a1), "--undercuts->",
-#                                str(a2), "on", str(a2_subarg)])
-#
-#     return pd.DataFrame(attacks)
-
-
 def generateUndercutAttacksV2(args):
     # generate all pairs of arguments
 
@@ -278,11 +264,6 @@ def argumentRank(arg, ranking, prefs, electionPrinciple="democratic", linkPrinci
         rank_rules = ranked[0].getLastDefeasibleRules(
         ) if linkPrinciple == "lastlink" else ranked[0].getAllDefeasibleRules()
 
-        # for a in arg_rules:
-        #             for r in rank_rules:
-        #                 print(
-        #                     f"comparing rule a {str(a)} and rule r {str(r)}: pref of a over r = {pv(prefs,a)-pv(prefs,r)}")
-
         rankmatrix = np.array([[pv(prefs, a)-pv(prefs, r)
                               for r in rank_rules] for a in arg_rules])
 
@@ -363,10 +344,7 @@ def generateArguments(ruleset):
             else:
                 premcombinations = [
                     list(x) for x in itertools.product(*premmap.values())]
-                # print("premcombinations : ",rule)
-                # for combination in premcombinations:
-                #    for arg in combination:
-                #        print(arg)
+                
                 for pc in premcombinations:
                     argcandidate = Argument(len(arguments) + 1, rule, pc)
                     if True not in [a == (argcandidate) for a in arguments]:
@@ -472,20 +450,13 @@ def generateSuccessfulDefeats(args, ranking, prefs):
         attacker = rebut[0]
         defendant = rebut[1]
         rebut_on_arg = rebut[2]
-        # print(f"Attacker: {attacker}, Defendant: {defendant} on {rebut_on_arg}")
         if preferredOver(attacker, rebut_on_arg, ranking, prefs):
-            # print("Successful!")
             successful_defeats.add((attacker, defendant, rebut_on_arg))
             successful_def_reb.append((attacker, defendant, rebut_on_arg))
-        # else:
-        #     # print("unsuccessful..")
     for undercut in undercuts:
         attacker = undercut.attacker
         defendant = undercut.defendant
         successful_defeats.add((attacker, defendant))
-
-    # for defeat in successful_def_reb:
-    #     print(f"Attacker: {defeat[0]}, Defendant: {defeat[1]} on {defeat[2]}")
 
     print(
         f"Defeats from Rebuts: {len(successful_defeats)-len(undercuts)}, from Undercuts: {len(undercuts)}, SUM: {len(successful_defeats)}")
@@ -498,15 +469,12 @@ def burden_compare(a1, a2, attacks, bur_nr_dict):
     for i in range(LIMIT):
         bcomp = bur(a1, i, attacks, bur_nr_dict) - \
             bur(a2, i, attacks, bur_nr_dict)
-        # if i>7:
-        #     print("Depth",i)
 
         if bcomp == 0:
             continue
         else:
             return 1 if bcomp > 0 else -1
 
-    # print("WARNING, LIMIT REACHED")
     return 0
 
 
@@ -531,7 +499,6 @@ def burden_rank(arguments, defeats):
     for i in range(n):
         min_index = i
         for j in range(i+1, n):
-            # print(i,j)
             if burden_compare(arguments[j], arguments[min_index], attackMap, bur_nr_dict) < 0:
                 min_index = j
         # Swap the found minimum element with the first element
@@ -583,7 +550,8 @@ def differenceDefeatAttack(args, ranking, prefs):
     _, rebuts = generateRebutAttacks(args)
     all_attacks = set(undercuts).union(set(rebuts))
     successful_defeats = generateSuccessfulDefeats(args, ranking, prefs)
-    filtered_attacks = all_attacks.difference(successful_defeats)
+    non_filtered_attacks = all_attacks.difference(successful_defeats)
+    filtered_attacks = all_attacks.difference(non_filtered_attacks)
     
     res = list()
     for filtered in filtered_attacks:
