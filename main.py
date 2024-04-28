@@ -1,4 +1,5 @@
 import datetime
+import os
 from helpers import *
 from flask import Flask, render_template, request, redirect, url_for
 app = Flask(__name__)
@@ -91,4 +92,9 @@ if __name__ == "__main__":
     # the "static" directory. See:
     # http://flask.pocoo.org/docs/1.0/quickstart/#static-files. Once deployed,
     # App Engine itself will serve those files as configured in app.yaml.
-    app.run(host="127.0.0.1", port=8082, debug=True)
+    port = os.getenv("PORT")
+    if(port == None):
+        port = 8082
+    else:
+        port = int(port)
+    app.run(host="127.0.0.1", port=port, debug=True)
